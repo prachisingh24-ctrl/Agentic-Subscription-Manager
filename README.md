@@ -7,7 +7,17 @@ It predicts usage, recommends whether to **Cancel**, **Switch**, or **Keep**, an
 - 🔮 **Smart Predictions**: Python backend analyzes subscription usage hours.
 - 🎛️ **Actionable Decisions**: Cancel, Switch, or Keep recommendations.
 - 💻 **Interactive Dashboard**: HTML/CSS/JS frontend with neon glow, 3D flip animations, and hover effects.
+- 🤖 **Agentic AI Core**: Autonomous backend agent that reasons about data and outputs intelligent decisions.
 - 👥 **Team‑Friendly**: Easy to clone, run, and extend for collaboration.
+
+## 🤖 Agentic AI Core
+The intelligence of this project lies in the **Python backend agent**:
+- Reads subscription data (`data.json`).
+- Predicts usage hours using heuristics or models.
+- Makes autonomous decisions (Cancel, Switch, Keep).
+- Outputs results in a color‑coded, human‑readable format.
+
+This agentic behavior powers the interactive dashboard, ensuring decisions feel **AI‑driven** rather than manual.
 
 ## 🛠️ Setup Instructions
 
@@ -34,6 +44,7 @@ It predicts usage, recommends whether to **Cancel**, **Switch**, or **Keep**, an
 3. Explore the glowing 3D dashboard with interactive cards.
 
 ## 📂 Project Structure
+```
 Agentic-Subscription-Manager/
 │
 ├── backend/
@@ -47,7 +58,7 @@ Agentic-Subscription-Manager/
 │   └── app.js
 │
 └── README.md
-
+```
 
 ## 🌟 Demo Preview
 Imagine a dashboard where:
@@ -64,12 +75,13 @@ Each card flips in 3D, showing details and glowing buttons for confirmation.
 - Deploy as a web app for live demos.
 
 ## 🤝 Contributing
-Pull requests are welcome!  
+Pull requests are welcome!
 For major changes, please open an issue first to discuss what you’d like to change.
 
 
 ## 📜 License
 MIT License – free to use, modify, and share with attribution.
+
 
 ## 🔗 Repository Link
 [Agentic Subscription Manager](https://github.com/prachisingh24-ctrl/Agentic-Subscription-Manager.git)
