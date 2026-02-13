@@ -1,41 +1,41 @@
 import json
-from colorama import Fore, Style
-from payments import execute_payment
 import random
 
-
-with open("data.json", "r") as f:
-    subscriptions = json.load(f)
+def load_subscriptions(file="data.json"):
+    with open(file, "r") as f:
+        return json.load(f)
 
 def predict_usage(hours):
-    import random
     predicted = hours + random.randint(-3, 3)
     return max(predicted, 0)
 
-def check_subscriptions(subs):
-    decisions = []
-    for sub in subs:
-        predicted = predict_usage(sub["usage_hours"])
-        if predicted < 5:
-            decisions.append(f"Cancel {sub['name']} (predicted usage {predicted}h)")
-            execute_payment(sub["name"], 0)  # no payment
-        elif sub["plan"] == "premium" and predicted < 20:
-            decisions.append(f"Switch {sub['name']} to basic plan (predicted {predicted}h)")
-            execute_payment(sub["name"], 5)  # mock cheaper payment
-        else:
-            decisions.append(f"Keep {sub['name']} active (predicted {predicted}h)")
-            execute_payment(sub["name"], 10)  # mock payment
-    return decisions
+def evaluate_subscription(sub):
+    predicted = predict_usage(sub.get("usage_hours", 0))
 
-actions = check_subscriptions(subscriptions)
-
-print("Agent Decisions:")
-for action in actions:
-    if "Cancel" in action:
-        print(Fore.RED + " - " + action + Style.RESET_ALL)
-    elif "Switch" in action:
-        print(Fore.YELLOW + " - " + action + Style.RESET_ALL)
-    elif "Keep" in action:
-        print(Fore.GREEN + " - " + action + Style.RESET_ALL)
+    if predicted < 5:
+        action = "Cancel"
+        detail = f"Predicted usage {predicted}h"
+    elif sub.get("plan", "").lower() == "premium" and predicted < 20:
+        action = "Switch"
+        detail = f"Predicted usage {predicted}h"
     else:
-        print(" - " + action)
+        action = "Keep"
+        detail = f"Predicted usage {predicted}h"
+
+    return {
+        "service": sub.get("name", "Unknown"),
+        "plan": sub.get("plan", "Unknown"),
+        "credits": sub.get("credits", 0),
+        "action": action,
+        "detail": detail
+    }
+
+def agent_decisions():
+    data = load_subscriptions()
+    subs = data.get("subscriptions", [])   # access the list inside the dict
+    return [evaluate_subscription(sub) for sub in subs]
+
+if __name__ == "__main__":
+    print("Agent Decisions:")
+    for decision in agent_decisions():
+        print(decision)

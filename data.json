@@ -1,5 +1,7 @@
-[
-  {"name": "Netflix", "plan": "premium", "usage_hours": 2},
-  {"name": "Spotify", "plan": "premium", "usage_hours": 15},
-  {"name": "CloudCompute", "plan": "basic", "usage_hours": 40}
-]
+{
+  "subscriptions": [
+    { "name": "Netflix", "plan": "Premium", "credits": 0, "usage_hours": 0 },
+    { "name": "Spotify", "plan": "Premium", "credits": 5, "usage_hours": 15 },
+    { "name": "CloudCompute", "plan": "Basic", "credits": 10, "usage_hours": 40 }
+  ]
+}

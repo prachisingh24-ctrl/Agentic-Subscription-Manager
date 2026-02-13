@@ -7,9 +7,22 @@
 </head>
 <body>
   <h1>Agentic Subscription Manager Dashboard</h1>
-  
-  <!-- Container for subscription cards -->
-  <div id="subscriptions"></div>
+
+  <!-- Tab buttons -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="decisions">Decisions</button>
+    <button class="tab-btn" data-tab="transactions">History</button>
+  </div>
+
+  <!-- Decisions tab -->
+  <div id="decisions" class="tab-content active">
+    <div id="subscriptions"></div>
+  </div>
+
+  <!-- History tab -->
+  <div id="transactions" class="tab-content">
+    <!-- Transaction history will load here -->
+  </div>
 
   <!-- Script to generate cards dynamically -->
   <script src="app.js"></script>
