@@ -1,11 +1,19 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+=======
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+>>>>>>> master
   <title>Agentic Subscription Manager</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<<<<<<< HEAD
   <h1>Agentic Subscription Manager Dashboard</h1>
 
   <!-- Tab buttons -->
@@ -28,3 +36,60 @@
   <script src="app.js"></script>
 </body>
 </html>
+=======
+
+<!-- HEADER WITH USER INFO -->
+<header class="mainHeader">
+  <div class="logoArea">
+    🤖 Agentic Dashboard
+  </div>
+
+  <div class="userArea">
+    <div class="userInfo">
+      <div class="avatar" id="avatar"></div>
+      <div>
+        <div id="userName">User</div>
+        <div id="userEmail" class="userEmail">email@email.com</div>
+      </div>
+    </div>
+
+    <button class="logoutBtn" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<section id="subscriptions"></section>
+
+<script src="app.js"></script>
+
+<script>
+// ===== CHECK LOGIN SESSION =====
+const email = localStorage.getItem("loggedInUser");
+
+if(!email){
+  // Strong redirect (cannot go back)
+  window.location.replace("login.html");
+}
+
+const user = JSON.parse(localStorage.getItem("user_" + email));
+
+if(user){
+  document.getElementById("userName").innerText = user.name;
+  document.getElementById("userEmail").innerText = user.email;
+
+  // Avatar first letter
+  document.getElementById("avatar").innerText =
+    user.name.charAt(0).toUpperCase();
+}
+function logout(){
+  localStorage.removeItem("loggedInUser");
+
+  setTimeout(()=>{
+    window.location = "login.html";
+  }, 100);
+}
+
+</script>
+
+</body>
+</html>
+>>>>>>> master

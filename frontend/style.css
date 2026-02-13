@@ -1,173 +1,147 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, #0d0d0d, #000000);
-  color: #fff;
-  text-align: center;
-  min-height: 100vh;
+/* Reset and base */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-h1 {
-  margin: 30px 0;
-  font-size: 2.4em;
-  color: #f0f0f0;
-  text-shadow: 0 0 15px #00ffff;
+html {
+  scroll-behavior: smooth;
 }
 
-#subscriptions {
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at 20% 20%, #0b0b2a, #02020a 70%);
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+/* Ambient animation */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, rgba(0,255,255,0.08), transparent 40%),
+              radial-gradient(circle at 70% 60%, rgba(0,255,157,0.08), transparent 40%);
+  animation: ambientMove 25s linear infinite;
+  z-index: -4;
+}
+
+@keyframes ambientMove {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-8%, -6%); }
+  100% { transform: translate(0,0); }
+}
+
+/* Header bar */
+.mainHeader {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 25px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: rgba(5,5,25,0.55);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(0,255,255,0.25);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: all 0.4s ease;
+}
+.mainHeader:hover {
+  background: rgba(5,5,25,0.8);
+  border-bottom: 1px solid rgba(0,255,255,0.4);
+}
+.logoArea {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg,#00ffff,#00ff9d,#ffd700);
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: transform 0.4s ease;
+}
+.logoArea:hover { transform: scale(1.08); }
+
+/* Subscriptions grid */
+#subscriptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 40px;
+  padding: 60px 50px;
+  position: relative;
+  z-index: 2;
 }
 
-/* Card container with perspective */
+/* Card container */
 .card {
-  width: 280px;
-  height: 220px;
-  perspective: 1000px;
+  perspective: 1600px;
 }
-
-/* Inner wrapper for flip */
 .card-inner {
   position: relative;
   width: 100%;
-  height: 100%;
-  transition: transform 0.8s;
+  height: 270px;
   transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(.2,.6,.2,1);
 }
-
 .card:hover .card-inner {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) scale(1.08);
 }
-
-/* Front and back faces */
 .card-front, .card-back {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 15px;
+  border-radius: 24px;
   backface-visibility: hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-  padding: 20px;
-  font-weight: bold;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, rgba(20,20,60,0.95), rgba(10,10,35,0.95));
+  border: 1px solid rgba(0,255,255,0.25);
+  box-shadow: 0 20px 55px rgba(0,0,0,0.75), inset 0 0 30px rgba(0,255,255,0.08);
 }
+.card-back { transform: rotateY(180deg); }
 
-/* Back face styling */
-.card-back {
-  transform: rotateY(180deg);
-  background: #111;
-  color: #fff;
+/* Status pills */
+.status {
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 0.85em;
+  margin-bottom: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
+.cancel .status { background: #ff4c4c; }
+.switch .status { background: #ffd700; color: #000; }
+.keep .status { background: #00e676; color: #001b10; }
 
-/* Glow colors for front face */
-.cancel .card-front {
-  background: linear-gradient(145deg, #ff4c4c, #b30000);
-  color: white;
-  box-shadow: 0 0 20px #ff4c4c;
-}
-
-.switch .card-front {
-  background: linear-gradient(145deg, #ffd700, #b8860b);
-  color: black;
-  box-shadow: 0 0 20px #ffd700;
-}
-
-.keep .card-front {
-  background: linear-gradient(145deg, #00e676, #007f3f);
-  color: white;
-  box-shadow: 0 0 20px #00e676;
-}
-
-/* Neon glow buttons */
+/* Buttons */
 .btn {
-  margin-top: 15px;
-  padding: 10px 18px;
+  margin-top: 18px;
+  padding: 12px 26px;
+  border-radius: 40px;
   border: none;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
+  font-weight: bold;
+  background: linear-gradient(90deg,#00ffff,#00ff9d);
+  color: #002222;
+  box-shadow: 0 0 22px rgba(0,255,255,0.5);
+  transition: all 0.35s ease;
 }
-
-.cancel .btn {
-  background: #ff4c4c;
-  color: white;
-  box-shadow: 0 0 12px #ff4c4c;
-}
-
-.switch .btn {
-  background: #ffd700;
-  color: black;
-  box-shadow: 0 0 12px #ffd700;
-}
-
-.keep .btn {
-  background: #00e676;
-  color: white;
-  box-shadow: 0 0 12px #00e676;
-}
-
 .btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
-}
-/* Transaction history container */
-#transactions {
-  max-width: 800px;
-  margin: 40px auto;
-  text-align: left;
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 0 40px rgba(0,255,255,0.9);
 }
 
-/* Transaction card styling */
-.transaction {
-  background: #111;
-  border-radius: 12px;
-  padding: 15px 20px;
-  margin: 12px 0;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.6);
-  transition: transform 0.2s ease;
-}
-
-.transaction:hover {
-  transform: scale(1.02);
-}
-
-/* Text inside transaction cards */
-.transaction p {
-  margin: 6px 0;
-  font-size: 0.95em;
-  color: #f0f0f0;
-}
-
-/* Glow colors by action */
-.transaction.cancel {
-  border-left: 6px solid #ff4c4c;
-  box-shadow: 0 0 12px #ff4c4c;
-}
-
-.transaction.switch {
-  border-left: 6px solid #ffd700;
-  box-shadow: 0 0 12px #ffd700;
-}
-
-.transaction.keep {
-  border-left: 6px solid #00e676;
-  box-shadow: 0 0 12px #00e676;
-}
-/* Tabs container */
+/* Tabs */
 .tabs {
   display: flex;
   justify-content: center;
   margin: 20px 0;
 }
-
 .tab-btn {
   background: #111;
   color: #fff;
@@ -179,29 +153,20 @@ h1 {
   font-weight: bold;
   transition: all 0.3s ease;
 }
-
 .tab-btn.active {
   background: #00ffff;
   color: #000;
   box-shadow: 0 0 15px #00ffff;
 }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-/* Transaction history container */
+/* Transaction history */
 #transactions {
   max-width: 800px;
   margin: 40px auto;
   text-align: left;
 }
-
-/* Transaction card styling */
 .transaction {
   background: #111;
   border-radius: 12px;
@@ -210,35 +175,17 @@ h1 {
   box-shadow: 0 6px 15px rgba(0,0,0,0.6);
   transition: transform 0.2s ease;
 }
-
-.transaction:hover {
-  transform: scale(1.02);
-}
-
-/* Text inside transaction cards */
+.transaction:hover { transform: scale(1.02); }
 .transaction p {
   margin: 6px 0;
   font-size: 0.95em;
   color: #f0f0f0;
 }
+.transaction.cancel { border-left: 6px solid #ff4c4c; box-shadow: 0 0 12px #ff4c4c; }
+.transaction.switch { border-left: 6px solid #ffd700; box-shadow: 0 0 12px #ffd700; }
+.transaction.keep { border-left: 6px solid #00e676; box-shadow: 0 0 12px #00e676; }
 
-/* Glow colors by action */
-.transaction.cancel {
-  border-left: 6px solid #ff4c4c;
-  box-shadow: 0 0 12px #ff4c4c;
-}
-
-.transaction.switch {
-  border-left: 6px solid #ffd700;
-  box-shadow: 0 0 12px #ffd700;
-}
-
-.transaction.keep {
-  border-left: 6px solid #00e676;
-  box-shadow: 0 0 12px #00e676;
-}
-
-/* Summary bar for history */
+/* Summary bar */
 .summary-bar {
   background: #0d0d0d;
   border-radius: 10px;
@@ -248,4 +195,11 @@ h1 {
   font-weight: bold;
   text-align: center;
   box-shadow: 0 0 15px #00ffff;
+}
+
+/* Responsive */
+@media(max-width:700px){
+  #subscriptions { padding:30px 20px; gap:28px; }
+  .mainHeader { padding:15px 20px; }
+  .logoArea { font-size:18px; }
 }

@@ -1,0 +1,20 @@
+[
+    {
+        "name": "youtube",
+        "monthly_cost": 500.0,
+        "usage_hours_last_month": 6.0,
+        "provider": "a"
+    },
+    {
+        "name": "music",
+        "monthly_cost": 250.0,
+        "usage_hours_last_month": 3.0,
+        "provider": "spo"
+    },
+    {
+        "name": "market",
+        "monthly_cost": 900.0,
+        "usage_hours_last_month": 40.0,
+        "provider": "amazon"
+    }
+]
