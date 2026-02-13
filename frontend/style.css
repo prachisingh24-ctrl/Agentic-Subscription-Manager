@@ -1,0 +1,285 @@
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Segoe UI',sans-serif;
+  background: radial-gradient(circle at 20% 20%, #0b0b2a, #02020a 70%);
+  color:#ffffff;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ===== FLOATING AMBIENT ANIMATION ===== */
+body::before{
+  content:"";
+  position:fixed;
+  width:200%;
+  height:200%;
+  background: radial-gradient(circle at 30% 30%, rgba(0,255,255,0.08), transparent 40%),
+              radial-gradient(circle at 70% 60%, rgba(0,255,157,0.08), transparent 40%);
+  animation:ambientMove 25s linear infinite;
+  z-index:-4;
+}
+
+@keyframes ambientMove{
+  0%{ transform:translate(0,0); }
+  50%{ transform:translate(-8%, -6%); }
+  100%{ transform:translate(0,0); }
+}
+
+/* ===== HEADER BAR ===== */
+.mainHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 40px;
+  background:rgba(5,5,25,0.55);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(0,255,255,0.25);
+  position:sticky;
+  top:0;
+  z-index:50;
+  transition:all 0.4s ease;
+}
+
+.mainHeader:hover{
+  background:rgba(5,5,25,0.8);
+  border-bottom:1px solid rgba(0,255,255,0.4);
+}
+
+.logoArea{
+  font-size:24px;
+  font-weight:600;
+  letter-spacing:1px;
+  background:linear-gradient(90deg,#00ffff,#00ff9d,#ffd700);
+  -webkit-background-clip:text;
+  color:transparent;
+  transition:transform 0.4s ease;
+}
+
+.logoArea:hover{
+  transform:scale(1.08);
+}
+
+/* ===== USER SECTION ===== */
+.userArea{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.userInfo{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:6px 14px;
+  border-radius:50px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(0,255,255,0.12);
+  transition:all 0.35s ease;
+}
+
+.userInfo:hover{
+  background:rgba(0,255,255,0.08);
+  transform:translateY(-2px);
+}
+
+.avatar{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#00ffff,#00ff9d);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  color:#002222;
+  box-shadow:0 0 25px rgba(0,255,255,0.35);
+}
+
+.userEmail{
+  font-size:12px;
+  opacity:0.7;
+}
+
+/* ===== LOGOUT BUTTON ===== */
+.logoutBtn{
+  padding:11px 26px;
+  border:none;
+  border-radius:40px;
+  cursor:pointer;
+  font-weight:bold;
+  letter-spacing:0.5px;
+  background:linear-gradient(90deg,#ff4c4c,#ff7676);
+  color:white;
+  transition:all 0.35s ease;
+  box-shadow:0 0 15px rgba(255,70,70,0.4);
+}
+
+.logoutBtn:hover{
+  transform:translateY(-2px) scale(1.07);
+  box-shadow:0 0 28px rgba(255,70,70,0.75);
+}
+
+/* ===== SUBSCRIPTION GRID ===== */
+#subscriptions{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:40px;
+  padding:60px 50px;
+  position:relative;
+  z-index:2;
+}
+
+/* ===== CARD CONTAINER ===== */
+.card{
+  perspective:1600px;
+}
+
+.card-inner{
+  position:relative;
+  width:100%;
+  height:270px;
+  transform-style:preserve-3d;
+  transition:transform 1s cubic-bezier(.2,.6,.2,1);
+}
+
+.card:hover .card-inner{
+  transform:rotateY(180deg) scale(1.08);
+}
+
+/* ===== CARD FACES ===== */
+.card-front,.card-back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:24px;
+  backface-visibility:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  background:linear-gradient(145deg, rgba(20,20,60,0.95), rgba(10,10,35,0.95));
+  border:1px solid rgba(0,255,255,0.25);
+  box-shadow:
+    0 20px 55px rgba(0,0,0,0.75),
+    inset 0 0 30px rgba(0,255,255,0.08);
+
+  transition:all 0.4s ease;
+}
+
+.card-front:hover{
+  box-shadow:
+    0 25px 65px rgba(0,0,0,0.85),
+    inset 0 0 40px rgba(0,255,255,0.15);
+}
+
+.card-front::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:linear-gradient(120deg, transparent, rgba(0,255,255,0.15), transparent);
+  opacity:0.5;
+}
+
+.card-back{
+  transform:rotateY(180deg);
+}
+
+/* ===== STATUS PILLS ===== */
+.status{
+  padding:8px 18px;
+  border-radius:30px;
+  font-size:0.85em;
+  margin-bottom:14px;
+  font-weight:600;
+  letter-spacing:0.5px;
+}
+
+.cancel .status{ background:#ff4c4c; }
+.switch .status{ background:#ffd700; color:#000; }
+.keep .status{ background:#00e676; color:#001b10; }
+
+/* ===== ACTION BUTTONS ===== */
+.btn{
+  margin-top:18px;
+  padding:12px 26px;
+  border-radius:40px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  background:linear-gradient(90deg,#00ffff,#00ff9d);
+  color:#002222;
+  box-shadow:0 0 22px rgba(0,255,255,0.5);
+  transition:all 0.35s ease;
+}
+
+.btn:hover{
+  transform:translateY(-2px) scale(1.1);
+  box-shadow:0 0 40px rgba(0,255,255,0.9);
+}
+
+/* ===== GRID BACKGROUND ===== */
+.grid{
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(0,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.06) 1px, transparent 1px);
+  background-size:70px 70px;
+  z-index:-3;
+}
+
+/* ===== GLOW ORBS ===== */
+.glow-orb{
+  position:fixed;
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  filter:blur(140px);
+  opacity:0.35;
+  z-index:-2;
+  animation:orbFloat 12s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloat{
+  from{ transform:translateY(0); }
+  to{ transform:translateY(-40px); }
+}
+
+.orb1{ background:#00ffff; top:5%; left:-5%; }
+.orb2{ background:#00ff9d; bottom:0; right:-5%; animation-delay:2s; }
+
+/* ===== DARK OVERLAY ===== */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.6));
+  z-index:-1;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:700px){
+  #subscriptions{
+    padding:30px 20px;
+    gap:28px;
+  }
+
+  .mainHeader{
+    padding:15px 20px;
+  }
+
+  .logoArea{
+    font-size:18px;
+  }
+}
