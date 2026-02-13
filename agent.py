@@ -3,14 +3,14 @@ from colorama import Fore, Style
 from payments import execute_payment
 import random
 
-# Load subscriptions
+
 with open("data.json", "r") as f:
     subscriptions = json.load(f)
 
 def predict_usage(hours):
     import random
     predicted = hours + random.randint(-3, 3)
-    return max(predicted, 0)  # ensures no negative values
+    return max(predicted, 0)
 
 def check_subscriptions(subs):
     decisions = []
@@ -38,4 +38,4 @@ for action in actions:
     elif "Keep" in action:
         print(Fore.GREEN + " - " + action + Style.RESET_ALL)
     else:
-        print(" - " + action)  # fallback, plain text
+        print(" - " + action)
