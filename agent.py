@@ -2,11 +2,30 @@
 # AI Subscription Agent (Interactive)
 # ----------------------------------------
 
+<<<<<<< HEAD
 def get_user_subscriptions():
     subscriptions = []
 
     print("\nEnter your subscriptions.")
     print("Type 'done' as name when finished.\n")
+=======
+<<<<<<< HEAD
+
+=======
+# Load subscriptions
+>>>>>>> master
+with open("data.json", "r") as f:
+    subscriptions = json.load(f)
+
+def predict_usage(hours):
+    import random
+    predicted = hours + random.randint(-3, 3)
+<<<<<<< HEAD
+    return max(predicted, 0)
+=======
+    return max(predicted, 0)  # ensures no negative values
+>>>>>>> master
+>>>>>>> 840cf485d2276e6a7d6fbbd98b6326684f738b85
 
     while True:
         name = input("Subscription name: ")
@@ -99,3 +118,20 @@ def run_agent():
 if __name__ == "__main__":
     run_agent()
 
+<<<<<<< HEAD
+=======
+print("Agent Decisions:")
+for action in actions:
+    if "Cancel" in action:
+        print(Fore.RED + " - " + action + Style.RESET_ALL)
+    elif "Switch" in action:
+        print(Fore.YELLOW + " - " + action + Style.RESET_ALL)
+    elif "Keep" in action:
+        print(Fore.GREEN + " - " + action + Style.RESET_ALL)
+    else:
+<<<<<<< HEAD
+        print(" - " + action)
+=======
+        print(" - " + action)  # fallback, plain text
+>>>>>>> master
+>>>>>>> 840cf485d2276e6a7d6fbbd98b6326684f738b85
