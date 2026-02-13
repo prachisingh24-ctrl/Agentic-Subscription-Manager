@@ -1,41 +1,101 @@
-import json
-from colorama import Fore, Style
-from payments import execute_payment
-import random
+# ----------------------------------------
+# AI Subscription Agent (Interactive)
+# ----------------------------------------
 
-# Load subscriptions
-with open("data.json", "r") as f:
-    subscriptions = json.load(f)
+def get_user_subscriptions():
+    subscriptions = []
 
-def predict_usage(hours):
-    import random
-    predicted = hours + random.randint(-3, 3)
-    return max(predicted, 0)  # ensures no negative values
+    print("\nEnter your subscriptions.")
+    print("Type 'done' as name when finished.\n")
 
-def check_subscriptions(subs):
-    decisions = []
-    for sub in subs:
-        predicted = predict_usage(sub["usage_hours"])
-        if predicted < 5:
-            decisions.append(f"Cancel {sub['name']} (predicted usage {predicted}h)")
-            execute_payment(sub["name"], 0)  # no payment
-        elif sub["plan"] == "premium" and predicted < 20:
-            decisions.append(f"Switch {sub['name']} to basic plan (predicted {predicted}h)")
-            execute_payment(sub["name"], 5)  # mock cheaper payment
+    while True:
+        name = input("Subscription name: ")
+
+        if name.lower() == "done":
+            break
+
+        cost = float(input("Monthly cost (₹): "))
+        usage = float(input("Usage hours last month: "))
+
+        subscriptions.append({
+            "name": name,
+            "monthly_cost": cost,
+            "usage_hours_last_month": usage
+        })
+
+        print("Subscription added.\n")
+
+    return subscriptions
+
+
+# -------------------------------
+# Agent logic
+# -------------------------------
+def analyze_subscriptions(data):
+    recommendations = []
+
+    for sub in data:
+        usage = sub["usage_hours_last_month"]
+        cost = sub["monthly_cost"]
+        name = sub["name"]
+
+        if usage == 0:
+            action = "Cancel"
+        elif usage < 5:
+            action = "Consider Downgrade"
         else:
-            decisions.append(f"Keep {sub['name']} active (predicted {predicted}h)")
-            execute_payment(sub["name"], 10)  # mock payment
-    return decisions
+            action = "Keep"
 
-actions = check_subscriptions(subscriptions)
+        recommendations.append({
+            "name": name,
+            "cost": cost,
+            "usage": usage,
+            "action": action
+        })
 
-print("Agent Decisions:")
-for action in actions:
-    if "Cancel" in action:
-        print(Fore.RED + " - " + action + Style.RESET_ALL)
-    elif "Switch" in action:
-        print(Fore.YELLOW + " - " + action + Style.RESET_ALL)
-    elif "Keep" in action:
-        print(Fore.GREEN + " - " + action + Style.RESET_ALL)
-    else:
-        print(" - " + action)  # fallback, plain text
+    return recommendations
+
+
+# -------------------------------
+# Simulated execution
+# -------------------------------
+def execute_actions(recommendations):
+    for rec in recommendations:
+        if rec["action"] == "Cancel":
+            print(f"❌ Cancelling {rec['name']} subscription...")
+        elif rec["action"] == "Consider Downgrade":
+            print(f"⚠️ Suggest downgrading {rec['name']}.")
+        else:
+            print(f"✅ Keeping {rec['name']}.")
+
+
+# -------------------------------
+# Main agent loop
+# -------------------------------
+def run_agent():
+    print("\n--- AI Subscription Agent ---\n")
+
+    subscriptions = get_user_subscriptions()
+
+    if not subscriptions:
+        print("No subscriptions entered.")
+        return
+
+    recommendations = analyze_subscriptions(subscriptions)
+
+    print("\n--- Recommendations ---\n")
+    for rec in recommendations:
+        print(
+            f"{rec['name']} | "
+            f"Cost: ₹{rec['cost']} | "
+            f"Usage: {rec['usage']} hrs | "
+            f"Action: {rec['action']}"
+        )
+
+    print("\n--- Executing Actions ---\n")
+    execute_actions(recommendations)
+
+
+if __name__ == "__main__":
+    run_agent()
+
