@@ -1,7 +1,17 @@
-# 🚀 Agentic Subscription Manager
+ 🚀 Agentic Subscription Manager
 
 An AI‑powered tool that helps you **take control of your subscriptions**.
 It predicts usage, recommends whether to **Cancel**, **Switch**, or **Keep**, and displays everything on a glowing, futuristic **3D flip‑card dashboard**.
+
+## ❗ Problem
+Subscription services often drain money silently — users lose track of usage and overspend without transparency.
+
+## 💡 Solution
+The **Agentic Subscription Manager** uses an autonomous AI agent to:
+- Monitor subscription usage
+- Recommend Cancel / Switch / Keep actions
+- Enforce monthly spend caps
+- Generate transparent receipts with audit logs
 
 ## ✨ Features
 - 🔮 **Smart Predictions**: Python backend analyzes subscription usage hours.
@@ -31,11 +41,11 @@ This agentic behavior powers the interactive dashboard, ensuring decisions feel 
    - Linux/Mac: `source venv/bin/activate`
 3. Install dependencies:
    ```bash
-   pip install colorama
+   pip install colorama fastapi uvicorn
    ```
-4. Run the agent:
+4. Run the backend:
    ```bash
-   python agent.py
+   uvicorn server:app --reload
    ```
 
 ### Frontend (Dashboard)
@@ -50,6 +60,7 @@ Agentic-Subscription-Manager/
 ├── backend/
 │   ├── agent.py
 │   ├── payments.py
+│   ├── server.py
 │   └── data.json
 │
 ├── frontend/
@@ -75,13 +86,14 @@ Each card flips in 3D, showing details and glowing buttons for confirmation.
 - Deploy as a web app for live demos.
 
 ## 🤝 Contributing
-Pull requests are welcome!
+Pull requests are welcome! 
 For major changes, please open an issue first to discuss what you’d like to change.
-
 
 ## 📜 License
 MIT License – free to use, modify, and share with attribution.
 
-
 ## 🔗 Repository Link
-[Agentic Subscription Manager](https://github.com/prachisingh24-ctrl/Agentic-Subscription-Manager.git)
+[Agentic Subscription Manager](https://github.com/prachisingh24-ctrl/Agentic-Subscription-Manager)
+
+## 🌐 Live Demo
+[Try the Dashboard](https://prachisingh.github.io/Agentic-Subscription-Manager/)
