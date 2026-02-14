@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "receipt_id": "11111111-2222-3333-4444-555555555555",
+    "service": "Netflix",
+    "action": "Keep",
+    "amount": 10,
+    "status": "Payment executed",
+    "reason": "Usage sufficient, keep current plan",
+    "policy": "Spend cap enforced",
+    "timestamp": "2026-02-14 12:55:00"
+  },
+  {
+    "receipt_id": "66666666-7777-8888-9999-000000000000",
+    "service": "Spotify",
+    "action": "Switch",
+    "amount": 5,
+    "status": "Payment executed",
+    "reason": "Premium plan underutilized, switch suggested",
+    "policy": "Spend cap enforced",
+    "timestamp": "2026-02-14 12:57:00"
+  },
+  {
+    "receipt_id": "b8f93fc1-bac4-48ef-b5b3-1ea5e8fc9d1f",
+    "service": "Netflix",
+    "action": "Cancel",
+    "amount": 0,
+    "status": "Payment executed",
+    "reason": "User opted to cancel subscription",
+    "policy": "Spend cap enforced",
+    "timestamp": "2026-02-14 13:17:21"
+  },
+  {
+    "receipt_id": "bdd65f91-ac2c-46a3-bbee-7215a9111202",
+    "service": "Spotify",
+    "action": "Switch",
+    "amount": 5,
+    "status": "Payment executed",
+    "reason": "Agent recommended switching to cheaper plan",
+    "policy": "Spend cap enforced",
+    "timestamp": "2026-02-14 13:17:27"
+  },
+  {
+    "receipt_id": "667ec1e7-1ae0-446c-98c9-198ada3d775c",
+    "service": "CloudCompute",
+    "action": "Keep",
+    "amount": 10,
+    "status": "Payment executed",
+    "reason": "Usage sufficient, keep current plan",
+    "policy": "Spend cap enforced",
+    "timestamp": "2026-02-14 13:17:33"
+  }
+]

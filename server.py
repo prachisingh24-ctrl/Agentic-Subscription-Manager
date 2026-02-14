@@ -2,60 +2,89 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from agent import agent_decisions
 from payments import execute_payment
-import json
-import os
+from utils import load_transactions, save_transaction
+from datetime import datetime
+from uuid import uuid4
+from pydantic import BaseModel
 
 app = FastAPI()
 
-# Enable CORS so frontend (port 5500) can talk to backend (port 8000)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["http://127.0.0.1:5500"] for stricter control
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class PayRequest(BaseModel):
+    service: str
+    action: str
 
 @app.get("/decisions")
 def get_decisions():
     return {"decisions": agent_decisions()}
 
 @app.post("/pay")
-def pay(service: str, action: str):
+def pay(req: PayRequest):
+    service = req.service
+    action = req.action
+
     if action.lower() == "cancel":
         amount = 0
+        reason = "User opted to cancel subscription"
     elif action.lower() == "switch":
         amount = 5
-    else:  # Keep
+        reason = "Agent recommended switching to cheaper plan"
+    else:
         amount = 10
+        reason = "Usage sufficient, keep current plan"
 
-    execute_payment(service, amount)
+    monthly_cap = 50
+    total_spend = sum(t["amount"] for t in load_transactions())
+    if total_spend + amount > monthly_cap:
+        log_entry = {
+            "receipt_id": str(uuid4()),
+            "service": service,
+            "action": action,
+            "amount": amount,
+            "status": "Blocked: Cap exceeded",
+            "reason": reason,
+            "policy": f"Monthly cap {monthly_cap}",
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        save_transaction(log_entry)
+        return log_entry
+
+    try:
+        execute_payment(service, amount)
+        status = "Payment executed"
+    except Exception:
+        try:
+            execute_payment(service, amount)
+            status = "Payment executed after retry"
+        except Exception:
+            status = "Fallback: Payment failed, kept plan"
+            action = "Keep"
 
     log_entry = {
+        "receipt_id": str(uuid4()),
         "service": service,
         "action": action,
         "amount": amount,
-        "status": "Payment executed"
+        "status": status,
+        "reason": reason,
+        "policy": "Spend cap enforced",
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
-    if os.path.exists("transactions.json"):
-        with open("transactions.json", "r") as f:
-            transactions = json.load(f)
-    else:
-        transactions = []
-
-    transactions.append(log_entry)
-
-    with open("transactions.json", "w") as f:
-        json.dump(transactions, f, indent=2)
-
+    save_transaction(log_entry)
     return log_entry
 
 @app.get("/transactions")
 def get_transactions():
-    if os.path.exists("transactions.json"):
-        with open("transactions.json", "r") as f:
-            transactions = json.load(f)
-    else:
-        transactions = []
-    return {"transactions": transactions}
+    return {"transactions": load_transactions()}
+
+@app.get("/receipts")
+def get_receipts():
+    return {"receipts": load_transactions()}
